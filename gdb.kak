@@ -8,6 +8,7 @@
 declare-option str gdb_breakpoint_active_symbol "●"
 declare-option str gdb_breakpoint_inactive_symbol "○"
 declare-option str gdb_location_symbol "➡"
+declare-option str gdb_cmd "gdb"
 
 set-face global GdbBreakpoint red,default
 set-face global GdbLocation blue,default
@@ -59,10 +60,10 @@ define-command -params .. -file-completion gdb-session-new %{
         done
         if [ -n "$TMUX" ]; then
             tmux split-window -h " \
-                gdb $@ --init-eval-command=\"new-ui mi3 ${kak_opt_gdb_dir}/pty\""
+                "$kak_opt_gdb_cmd" $@ --init-eval-command=\"new-ui mi3 ${kak_opt_gdb_dir}/pty\""
         elif [ -n "$WINDOWID" ]; then
             setsid -w $kak_opt_termcmd " \
-                gdb $@ --init-eval-command=\"new-ui mi3 ${kak_opt_gdb_dir}/pty\"" 2>/dev/null >/dev/null &
+                "$kak_opt_gdb_cmd" $@ --init-eval-command=\"new-ui mi3 ${kak_opt_gdb_dir}/pty\"" 2>/dev/null >/dev/null &
         fi
     }
 }
